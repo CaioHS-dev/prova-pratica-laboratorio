@@ -13,18 +13,15 @@ import java.util.List;
  */
 public class CatalogoEquipamentos {
 
-    private final InventarioLegadoWS legado;
+    private final FonteEquipamentos fonte;
 
-    public CatalogoEquipamentos(InventarioLegadoWS legado) {
-        this.legado = legado;
+    public CatalogoEquipamentos(FonteEquipamentos fonte) {
+        this.fonte = fonte;
     }
 
     public List<Equipamento> listarDisponiveis() {
         List<Equipamento> disponiveis = new ArrayList<>();
-        for (String[] linha : legado.consultarEquipamentos()) {
-            Equipamento item = new Equipamento(linha[0], linha[1]);
-            // atencao: aqui so se reconhece a letra maiuscula
-            item.setDisponivel("D".equals(linha[2]));
+        for (Equipamento item : fonte.listarEquipamentos()) {
             if (item.isDisponivel()) {
                 disponiveis.add(item);
             }
