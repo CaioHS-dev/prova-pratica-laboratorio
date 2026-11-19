@@ -1,6 +1,5 @@
 package siga;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,21 +11,14 @@ import java.util.List;
  */
 public class RelatorioAcervo {
 
-    private final InventarioLegadoWS legado;
+    private final FonteEquipamentos fonte;
 
-    public RelatorioAcervo(InventarioLegadoWS legado) {
-        this.legado = legado;
+    public RelatorioAcervo(FonteEquipamentos fonte) {
+        this.fonte = fonte;
     }
 
     public List<Equipamento> listarTodos() {
-        List<Equipamento> todos = new ArrayList<>();
-        for (String[] linha : legado.consultarEquipamentos()) {
-            Equipamento item = new Equipamento(linha[0], linha[1]);
-            // aqui a minuscula foi tratada
-            item.setDisponivel("D".equalsIgnoreCase(linha[2]));
-            todos.add(item);
-        }
-        return todos;
+        return fonte.listarEquipamentos();
     }
 
     public void imprimir() {
