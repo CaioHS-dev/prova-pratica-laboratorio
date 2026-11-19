@@ -15,48 +15,37 @@ package siga;
  *   EM_USO  --devolver-->  ENCERRADA
  *   ENCERRADA e final: recusa as tres operacoes.
  */
+
 public class Reserva {
 
     private final Usuario solicitante;
     private final Equipamento item;
+    private EstadoReserva estado;
 
     public Reserva(Usuario solicitante, Equipamento item) {
         this.solicitante = solicitante;
         this.item = item;
-        this.situacao = "SOLICITADA";
+        this.estado = new EstadoSolicitada();
     }
 
-    private String situacao;
+    void setEstado(EstadoReserva novoEstado) {
+        this.estado = novoEstado;
+    }
 
     public String getSituacao() {
-        return situacao;
+        return estado.getNome();
     }
 
     public void retirar() {
-        if ("SOLICITADA".equals(situacao)) {
-            situacao = "EM_USO";
-        } else {
-            throw new IllegalStateException(
-                    "Nao e possivel retirar em " + situacao + ".");
-        }
+        estado.retirar(this);
     }
 
     public void devolver() {
-        if ("EM_USO".equals(situacao)) {
-            situacao = "ENCERRADA";
-        } else {
-            throw new IllegalStateException(
-                    "Nao e possivel devolver em " + situacao + ".");
-        }
+        estado.devolver(this);
     }
 
     public void cancelar() {
-        if ("SOLICITADA".equals(situacao)) {
-            situacao = "ENCERRADA";
-        } else {
-            throw new IllegalStateException(
-                    "Nao e possivel cancelar em " + situacao + ".");
-        }
+        estado.cancelar(this);
     }
 
     public Usuario getSolicitante() {
